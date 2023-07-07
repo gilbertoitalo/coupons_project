@@ -28,7 +28,7 @@ def iniciar_submenu_consulta_clientes():
         match opcao_escolhida:
             case '1':
                 
-                clients.mostrar_clientes()
+                clients.csv
 
             
             case '2':
