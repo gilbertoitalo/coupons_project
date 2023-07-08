@@ -21,7 +21,6 @@ def iniciar_menu_principal():
                 
                 clients.Cliente.cadastrar_clientes
                 clients.__name__ = input()
-
             case '3':
                 print("Editar Clientes")
             case '4':

@@ -15,13 +15,13 @@ class Cliente:
       self.data_criacao = data_criacao
 
    def cadastrar_clientes(self):
-      with open('clientes.csv','a') as arquivo_csv:
-         writer = csv.writer(arquivo_csv)
+      with open('clientes.csv','a') as clientes_csv:
+         writer = csv.writer(clientes_csv)
          writer.writerow([self.nome, self.data_nascimento,self.email, self.data_criacao])   
    
       print( f"Cliente," +{self.nome} +"cadastrado com sucesso")
 
-# Gerar dados aleatórios para 100 clientes
+# Gerar dados aleatórios para 50 clientes
 dados_clientes = []
 for _ in range(50):
     nome = fake.name()
