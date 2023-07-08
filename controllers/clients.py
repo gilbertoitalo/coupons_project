@@ -15,8 +15,10 @@ for _ in range(50):
     email = fake.email()
     
     # Calcular a data de cricao -2 anos a partir da data atual  
-    data_atual = date.today()
-    data_criacao = data_atual + relativedelta(years=-2)
+    # Para fazer: preciso trocar a data para uma logica aleatoria
+    data_atual = date.today() 
+    data_criacao = data_atual + relativedelta (days=random.randint(0, 365*2)) - relativedelta(years=2)
+
 
     
     dados_clientes.append([nome_completo, data_nascimento, email, data_criacao])
@@ -27,12 +29,8 @@ with open('clientes.csv', 'w', newline='') as arquivo_csv:
     writer.writerow(['nome_completo', 'data_nascimento', 'email', 'data_criacao'])
     writer.writerows(dados_clientes)
 
-print("Arquivo CSV gerado com sucesso!")
+   # print("Arquivo CSV gerado com sucesso!")
 
-with open('clientes.csv', 'r') as arquivo_csv:
-    reader = csv.reader(arquivo_csv)
-    for linha in reader:
-        print(linha)
 
 clients = [
     {"nome": "Adriano", "data_nascimento": "02-05-1976", 
@@ -40,25 +38,30 @@ clients = [
 ]
 
 def mostrar_clientes():
+ with open('clientes.csv', 'r') as arquivo_csv:
+     reader = csv.reader(arquivo_csv)
+     for linha in reader:
+        print(linha)
+     
 # Define as colunas da tabela, correspondendo aos campos dos clientes:
-    headers = ["nome ", "data_nascimento", "email", "cliente_desde"]
+  #  headers = ["nome ", "data_nascimento", "email", "cliente_desde"]
 
 # Cria uma lista vazia pra armazenar as linhas de dados da tabela
-    rows = []
+  #  rows = []
 
 # loop para percorrer a lista de clientes para cada cliente
-    for cliente in clients:
-     nome = cliente["nome"]
-     data_nascimento = cliente["data_nascimento"]
-     email = cliente["email"]
-     cliente_desde = cliente["cliente_desde"]
-     row = [nome, data_nascimento, email, cliente_desde]
-     rows.append(row)
+ #   for cliente in clients:
+   #  nome = cliente["nome"]
+   #  data_nascimento = cliente["data_nascimento"]
+   #  email = cliente["email"]
+   #  cliente_desde = cliente["cliente_desde"]
+   #  row = [nome, data_nascimento, email, cliente_desde]
+   #  rows.append(row)
 
     # Uso a funcao para formatar os dados e criar a tabela
-    table = tabulate(rows, headers,tablefmt="grid")
+#  table = tabulate(rows, headers,tablefmt="grid")
 
-    print(table)
+  #  print(table)
 
 
     
