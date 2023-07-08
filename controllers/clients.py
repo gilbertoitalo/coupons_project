@@ -7,10 +7,24 @@ from dateutil.relativedelta import relativedelta
 
 fake = Faker()
 
+class Cliente:
+   def __init__(self,nome,data_nascimento,email,data_criacao) -> None:
+      self.nome = nome
+      self.data_nascimento = data_nascimento
+      self.email = email
+      self.data_criacao = data_criacao
+
+   def cadastrar_clientes(self):
+      with open('clientes.csv','a') as arquivo_csv:
+         writer = csv.writer(arquivo_csv)
+         writer.writerow([self.nome, self.data_nascimento,self.email, self.data_criacao])   
+   
+      print( f"Cliente," +{self.nome} +"cadastrado com sucesso")
+
 # Gerar dados aleatórios para 100 clientes
 dados_clientes = []
 for _ in range(50):
-    nome_completo = fake.name()
+    nome = fake.name()
     data_nascimento = fake.date_of_birth(minimum_age=18, maximum_age=90)
     email = fake.email()
     
@@ -21,7 +35,7 @@ for _ in range(50):
 
 
     
-    dados_clientes.append([nome_completo, data_nascimento, email, data_criacao])
+    dados_clientes.append([nome, data_nascimento, email, data_criacao])
 
 # Escrever os dados no arquivo CSV
 with open('clientes.csv', 'w', newline='') as arquivo_csv:
@@ -59,6 +73,7 @@ def mostrar_por_aniver():
 
 mostrar_por_aniver()  
 
+
 def mostrar_por_mes(mes_especifico):
    
    aniver_do_mes = []
@@ -80,12 +95,15 @@ def mostrar_por_mes(mes_especifico):
 
 
 
+
         
 
          
 
    
-      #if data_nascimento != hoje.day and data_nascimento != hoje.month: 
+      #
+      # 
+      # if data_nascimento != hoje.day and data_nascimento != hoje.month: 
        # print("Não existe na data de hoje nenhum cliente fazendo aniversario")
         
      

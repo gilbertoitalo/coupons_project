@@ -5,13 +5,23 @@ def iniciar_menu_principal():
         print("1 - Consultar clientes\n2 - Cadastrar cliente\n3 - Editar Clientes" 
               "\n4 - Enviar cupons via email aos clientes aniversariantes\n5 - Sair")
         opcao_escolhida = input("Digite uma opção: ")
-
         match opcao_escolhida:
             case '1':
                 
                 iniciar_submenu_consulta_clientes()
             case '2':
-                print("CADASTRAR CLIENTE") 
+                print("Olá vamos cadastrar um cliente")
+                nome = input(print("Digite o nome e sobrenome: "))
+                data_nascimento = input(print("Digite a  data de nascimento. conforme o exemplo ex:AAAA-MM-DD: "))
+                email = input(print("Digite o email: "))
+                # TO DO implementar para data de criacao o date.now 
+                data_criacao = input(print("Digite a data de hoje, como no exemplo AAAA-MM-DD: "))
+                cliente = clients.Cliente(nome,data_nascimento,email,data_criacao)
+                cliente.cadastrar_clientes()
+                
+                clients.Cliente.cadastrar_clientes
+                clients.__name__ = input()
+
             case '3':
                 print("Editar Clientes")
             case '4':
@@ -27,10 +37,7 @@ def iniciar_submenu_consulta_clientes():
         opcao_escolhida = input("Digite uma opção: ")
         match opcao_escolhida:
             case '1':
-                
-                clients.mostrar_todos_clientes()
-
-            
+                 clients.mostrar_todos_clientes()
             case '2':
                 clients.mostrar_por_aniver()
                 break
