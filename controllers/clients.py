@@ -32,16 +32,62 @@ with open('clientes.csv', 'w', newline='') as arquivo_csv:
    # print("Arquivo CSV gerado com sucesso!")
 
 
-clients = [
-    {"nome": "Adriano", "data_nascimento": "02-05-1976", 
-     "email":"adriano078@hotmail.com", "cliente_desde":"16-09-2018"},
-]
 
-def mostrar_clientes():
+def mostrar_todos_clientes():
  with open('clientes.csv', 'r') as arquivo_csv:
      reader = csv.reader(arquivo_csv)
      for linha in reader:
         print(linha)
+
+def mostrar_por_aniver():
+   hoje = date.today()
+   anivers = []
+
+   with open('clientes.csv' , 'r') as csv_file:
+      reader = csv.DictReader(csv_file)
+      for row in reader:
+         data_nascimento = date.fromisoformat(row['data_nascimento'])
+
+      if data_nascimento == hoje.day and data_nascimento == hoje.month: 
+        anivers.append(row['name'])
+
+      if anivers:
+         for name in anivers:
+            print("Hoje é aniver do cliente:" , name)
+      else:
+         print("Nao existe na data de hoje nenhum cliente fazendo aniversario")
+
+mostrar_por_aniver()  
+
+def mostrar_por_mes(mes_especifico):
+   
+   aniver_do_mes = []
+  
+   with open('clientes.csv' , 'r') as csv_file:
+      reader = csv.DictReader(csv_file)
+      for row in reader:
+         data_nascimento = date.fromisoformat(row['data_nascimento'])
+
+         if data_nascimento == mes_especifico:
+            aniver_do_mes.append(row['name'])
+      
+         if aniver_do_mes:
+            for aniver in aniver_do_mes:
+               print("Hoje é aniver do cliente: " , aniver)
+      else:
+         print("Nao há aniversariantes esse mes")
+
+
+
+
+        
+
+         
+
+   
+      #if data_nascimento != hoje.day and data_nascimento != hoje.month: 
+       # print("Não existe na data de hoje nenhum cliente fazendo aniversario")
+        
      
 # Define as colunas da tabela, correspondendo aos campos dos clientes:
   #  headers = ["nome ", "data_nascimento", "email", "cliente_desde"]

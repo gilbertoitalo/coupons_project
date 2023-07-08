@@ -28,14 +28,15 @@ def iniciar_submenu_consulta_clientes():
         match opcao_escolhida:
             case '1':
                 
-                clients.mostrar_clientes()
+                clients.mostrar_todos_clientes()
 
             
             case '2':
-                print("CONSULTAR CLIENTES ANIVERSARIANTES")
+                clients.mostrar_por_aniver()
                 break
             case '3':
-                print("CONSULTAR CLIENTES ANIVERSARIANTES DE UM MÊS ESPECÍFICO")
+                mmes_especifico =input("Digite o mes e ano que gostaria de pesquisar")
+                clients.mostrar_por_mes(mmes_especifico)
                 break
             case '4':
                 break
