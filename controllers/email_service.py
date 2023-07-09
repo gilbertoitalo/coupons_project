@@ -6,6 +6,7 @@ from dotenv import load_dotenv
 import datetime
 #from controllers import clients 
 
+
 load_dotenv()
 EMAIL_LOGIN = os.getenv("EMAIL_LOGIN")
 SENHA_LOGIN = os.getenv("SENHA_LOGIN")
