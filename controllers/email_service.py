@@ -4,14 +4,15 @@ from email.mime.text import MIMEText
 import os
 from dotenv import load_dotenv
 import datetime
-#from controllers import clients 
+
+from controllers import clients 
 
 
 load_dotenv()
 EMAIL_LOGIN = os.getenv("EMAIL_LOGIN")
 SENHA_LOGIN = os.getenv("SENHA_LOGIN")
 HOST = os.getenv('HOST') 
-PORTA = os.getenv('PORTA') #587
+PORTA = os.getenv('PORTA') 
 
 def gerar_arquivo_log_erro(log_erros):
     data_hora_atual = datetime.datetime.today().strftime('%d_%m_%y_%H_%M_%S')
@@ -25,6 +26,7 @@ def gerar_arquivo_log_erro(log_erros):
 #for cliente in anivers:
    #print(f"Nome: {cliente['nome_completo']}, E-mail: {cliente['email']}")
    
+# TO DO criar logica para chamar os aniver e mandar    
 
 def enviar_emails():
    log_erros = []
@@ -37,9 +39,9 @@ def enviar_emails():
    msg = MIMEMultipart()
    msg ['from'] = 'italo.mpinheiro@gmail.com'
    msg ['to'] = 'gilberto_italo@hotmail.com'
-   msg ['Subject'] = 'primeiro teste'
+   msg ['Subject'] = clients.get_nome()
 
-   conteudo_email = MIMEText('teste' ,'plain')
+   conteudo_email = MIMEText("Olá, <primeiro nome>. Nós da <nome da loja> te desejamos um feliz aniversário. Aqui está um cupom de desconto para utilizar nas compras de nossos produtos e serviços:" ,'plain')
    msg.attach(conteudo_email)
 
    servidor.send_message(msg)

@@ -101,31 +101,44 @@ def mostrar_por_mes(mes_especifico):
          
 
    
-      #
-      # 
-      # if data_nascimento != hoje.day and data_nascimento != hoje.month: 
-       # print("Não existe na data de hoje nenhum cliente fazendo aniversario")
+    
         
      
-# Define as colunas da tabela, correspondendo aos campos dos clientes:
-  #  headers = ["nome ", "data_nascimento", "email", "cliente_desde"]
+# TO DO a fuction to apply the coupons 
 
-# Cria uma lista vazia pra armazenar as linhas de dados da tabela
-  #  rows = []
-
-# loop para percorrer a lista de clientes para cada cliente
- #   for cliente in clients:
-   #  nome = cliente["nome"]
-   #  data_nascimento = cliente["data_nascimento"]
-   #  email = cliente["email"]
-   #  cliente_desde = cliente["cliente_desde"]
-   #  row = [nome, data_nascimento, email, cliente_desde]
-   #  rows.append(row)
-
-    # Uso a funcao para formatar os dados e criar a tabela
-#  table = tabulate(rows, headers,tablefmt="grid")
-
-  #  print(table)
+def get_nome(nome):
+   with open('clientes.csv' 'r ') as csv_file:
+      reader = csv.DictReader(csv_file)
+      for row in reader:
+         if row["nome"] == nome:
+            return row["nome completo"]
+         return None
 
 
-    
+def gerar_cupom(nome, data_criacao):
+   nome = get_nome(nome)
+   if nome is None:
+      return None
+   
+   primeiro_nome = nome.split[0]
+   nome.upper()
+   desconto = 0 
+
+   ano_criacao = (date.today() - data_criacao) // 355
+
+   if ano_criacao < 1:
+      desconto = 10
+   elif ano_criacao >= 1 and ano_criacao < 2:
+      desconto = 20
+   else:
+      desconto = 30
+
+   desconto = min(desconto, 30)
+
+   cupom = f"{primeiro_nome}{desconto}"
+
+   return cupom
+
+
+
+   
