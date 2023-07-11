@@ -7,6 +7,7 @@ import datetime
 
 from controllers import clients 
 
+#TO DO criar uma def de log_err para gerar o arq em com qualquer erro
 
 load_dotenv()
 EMAIL_LOGIN = os.getenv("EMAIL_LOGIN")
