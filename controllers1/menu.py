@@ -1,4 +1,5 @@
-from controllers import clients
+from controllers1 import clients 
+ 
 
 def iniciar_menu_principal():
     while True:
@@ -22,7 +23,8 @@ def iniciar_menu_principal():
                 clients.Cliente.cadastrar_clientes
                 clients.__name__ = input()
             case '3':
-                print("Editar Clientes")
+                nome_completo = input( "Olá confirme os dados do cliente, digite o nome completo: ")
+                clients.editar_clientes(nome_completo)
             case '4':
                 print("ENVIAR CUPONS VIA EMAIL")
             case '5':
@@ -36,12 +38,11 @@ def iniciar_submenu_consulta_clientes():
         opcao_escolhida = input("Digite uma opção: ")
         match opcao_escolhida:
             case '1':
-                 clients.mostrar_todos_clientes()
+                 clients.get_todos_clientes()
                  
                  
             case '2':
-                aniversariantes = clients.mostrar_por_aniver()
-                print("Hoje é o aniversário do cliente:", aniversariantes)
+                clients.get_mostrar_aniver()
                 
             case '3':
                 mmes_especifico =input("Digite o mes e ano que gostaria de pesquisar")

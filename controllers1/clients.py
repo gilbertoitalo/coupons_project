@@ -1,9 +1,12 @@
+from calendar import isleap
 from datetime import date
+import datetime
 from tabulate import tabulate
 import csv
 import random
 from faker import Faker
 from dateutil.relativedelta import relativedelta
+
 
 fake = Faker()
 
@@ -20,6 +23,26 @@ class Cliente:
          writer.writerow([self.nome, self.data_nascimento,self.email, self.data_criacao])   
    
       print( f"Cliente," +{self.nome} +"cadastrado com sucesso")
+
+   def eh_ano_bissexto(self):
+        ano_atual = datetime.now().year
+        return isleap(ano_atual) == False
+    
+   def faz_aniversario_ano_bissexto(self):
+        dia, mes = self.data_nascimento
+        return dia == "29" and mes == "02"
+
+   def get_dia_mes_aniversario(self) -> dict["dia": str, "mes": str, "ano": str]:
+        dia, mes = self.data_nascimento.split("/")[:2]
+
+        if self.eh_ano_bissexto() and self.faz_aniversario_ano_bissexto():
+            dia = "28"
+
+        data = {
+            "dia": int(dia),
+            "mes": int(mes)
+        }
+        return data   
 
   
 # Gerar dados aleatórios para 50 clientes
@@ -48,7 +71,7 @@ class Cliente:
 
 
 
-def mostrar_todos_clientes():
+def get_todos_clientes():
  with open('clientes.csv', 'r', encoding='utf8') as arquivo_csv:
      reader = csv.DictReader(arquivo_csv)
      for row in reader:
@@ -56,10 +79,10 @@ def mostrar_todos_clientes():
         email = row["email"]
         print(f"Nome: {nome}, Email: {email}")
  
-mostrar_todos_clientes()
+get_todos_clientes()
      
 
-def mostrar_por_aniver():
+def get_mostrar_aniver():
     hoje = date.today()
     aniversariantes = []
 
@@ -70,10 +93,13 @@ def mostrar_por_aniver():
             nome = row["nome_completo"]
             if data_nascimento.day == hoje.day and data_nascimento.month == hoje.month:
                 aniversariantes.append(row['nome_completo'])
+            
+            else:
+               print("Não existe na data de hoje nenhum cliente fazendo aniver")
 
             return aniversariantes
 
-mostrar_por_aniver()
+get_mostrar_aniver()
 
 
 #To do: criar uma vreficacao caso cliente nascer em ano bissexto 
@@ -91,26 +117,38 @@ def mostrar_por_mes(mes_especifico):
       
          if aniver_do_mes:
             for aniver in aniver_do_mes:
-               print("Hoje é aniver do cliente: " , aniver)
+               print(" Esse mês é aniver do cliente): " , aniver)
       else:
          print("Nao há aniversariantes esse mes")
 
 
-def editar_clientes(nome, data_nascimento, email):
-   with open("clientes.csv" , "r") as csv_file:
-      reader = csv.DictReader(csv_file)
-      rows = list(reader)
+def editar_clientes(nome_completo):
+   cliente = get_nome(nome_completo)
+   with open("clientes.csv", "r") as csv_file:
+        reader = csv.DictReader(csv_file)
+        rows = list(reader)
+   
+   if cliente in rows:
+      print("Cliente encontrado com sucesso")
+      print(f"Nome: {nome_completo}")
+      print(f"Nome: {cliente['data_nascimento']}")
+      print(f"Nome: {cliente['email']}") 
+      print(f"Nome: {cliente['data_criacao']}")
 
-   for row in rows:
-      if row ["nome"] == nome:
-         row ["data_nascimento"] == data_nascimento
-         row ["email"] == email
+      confirmacao = input("Deseja alterar os dados de email? Se sim digite: 1 se deseja excluir digite: E, agora se deseja cancelar digite: C")
+      if confirmacao.lower == 1:
+         novo_email = input("Digite o novo email: ")
+         cliente['email'] = novo_email
+         with open("clientes.csv" , 'w') as csv_file:
+           fieldnames = ["email" ]
+           writer2 = csv.DictWriter(csv_file , fieldnames=fieldnames)
+           writer2.writeheader
+           writer2.writerow(cliente)
+           print("Email alterado com sucesso")
+           
 
-   with open("clientes.csv" , 'w') as csv_file:
-     fieldnames = ["nome","data_nascimento" , "email","data_criacao"]
-     writer2 = csv.DictWriter(csv_file , fieldnames=fieldnames)
-     writer2.writeheader
-     writer2.writerows(rows)
+
+
 
 
 #TO do excluir_clientes
@@ -122,13 +160,14 @@ def editar_clientes(nome, data_nascimento, email):
      
 # TO DO a fuction to apply the coupons 
 
-def get_nome(nome):
-   with open('clientes.csv' 'r ') as csv_file:
+def get_nome(nome_completo):
+   with open('clientes.csv', 'r') as csv_file:
       reader = csv.DictReader(csv_file)
       for row in reader:
-         if row["wmIL"] == nome:
-            return row["nome completo"]
-         return None
+         if row["nome_completo"] == nome_completo:
+            return row
+   return None
+         
 
 
 def get_cupom(nome, data_criacao):
@@ -154,7 +193,6 @@ def get_cupom(nome, data_criacao):
    cupom = f"{primeiro_nome}{desconto}"
 
    return cupom
-
 
 
    
