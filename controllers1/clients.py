@@ -1,6 +1,8 @@
 from calendar import isleap
 from datetime import date
 import datetime
+import shutil
+import tempfile
 from tabulate import tabulate
 import csv
 import random
@@ -131,20 +133,49 @@ def editar_clientes(nome_completo):
    if cliente in rows:
       print("Cliente encontrado com sucesso")
       print(f"Nome: {nome_completo}")
-      print(f"Nome: {cliente['data_nascimento']}")
-      print(f"Nome: {cliente['email']}") 
-      print(f"Nome: {cliente['data_criacao']}")
+      print(f"Data de nascimento: {cliente['data_nascimento']}")
+      print(f"Email: {cliente['email']}") 
+      print(f"Data de criacao: {cliente['data_criacao']}")
 
-      confirmacao = input("Deseja alterar os dados de email? Se sim digite: 1 se deseja excluir digite: E, agora se deseja cancelar digite: C")
-      if confirmacao.lower == 1:
+      while True:
+       print("Deseja alterar os dados de email? Se sim digite: 1 se deseja excluir digite: 2, agora se deseja cancelar digite:3  ")
+       opcao = input("Digite uma das opcoes")
+       if opcao.lower()=="1":
          novo_email = input("Digite o novo email: ")
          cliente['email'] = novo_email
          with open("clientes.csv" , 'w') as csv_file:
-           fieldnames = ["email" ]
-           writer2 = csv.DictWriter(csv_file , fieldnames=fieldnames)
-           writer2.writeheader
-           writer2.writerow(cliente)
+           fieldnames = ["nome_completo","data_nascimento","email","data_criacao" ]
+           writer = csv.DictWriter(csv_file , fieldnames=fieldnames)
+           writer.writeheader
+           writer.writerow(cliente)
            print("Email alterado com sucesso")
+      
+       elif opcao.lower()=="2":
+          with open('clientes.csv','r') as csv_file, tempfile.NamedTemporaryFile(mode='w', delete=False) as temp_file:
+             reader = csv.DictReader(csv_file)
+             fieldnames = reader.fieldnames
+            # rows = [row for row in reader if row["nome_completo"] != nome_completo]
+             writer = csv.DictWriter(temp_file, fieldnames=fieldnames)
+             writer.writeheader()
+
+             for row in reader:
+                if row["nome_completo"] != nome_completo:
+                   writer.writerow(row)
+
+          shutil.move(temp_file.name, "clietes.csv")
+          print("Cliente excluido com sucessso")
+          #with open('clientes.csv','w') as csv_file:
+          #   fieldnames = ["nome_completo","data_nascimento","email","data_criacao"]
+          #   writer.writeheader()
+           #  writer.writerows(rows)   
+          #   print("Cliente excluido com sucesso")
+      # elif opcao.lower() == "3":
+       #   print("alteracao cancelada")   
+
+
+          
+
+
            
 
 
