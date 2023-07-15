@@ -12,11 +12,11 @@ def iniciar_menu_principal():
                 iniciar_submenu_consulta_clientes()
             case '2':
                 print("Olá vamos cadastrar um cliente")
-                nome = input(print("Digite o nome e sobrenome: "))
-                data_nascimento = input(print("Digite a  data de nascimento. conforme o exemplo ex:AAAA-MM-DD: "))
-                email = input(print("Digite o email: "))
+                nome = input(("Digite o nome e sobrenome: \n"))
+                data_nascimento = input("Digite a  data de nascimento. conforme o exemplo ex:AAAA-MM-DD: \n")
+                email = input("Digite o email: \n")
                 # TO DO implementar para data de criacao o date.now 
-                data_criacao = input(print("Digite a data de hoje, como no exemplo AAAA-MM-DD: "))
+                data_criacao = input("Digite a data de hoje, como no exemplo AAAA-MM-DD: \n")
                 cliente = clients.Cliente(nome,data_nascimento,email,data_criacao)
                 cliente.cadastrar_clientes()
                 

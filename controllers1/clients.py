@@ -13,8 +13,8 @@ from dateutil.relativedelta import relativedelta
 fake = Faker()
 
 class Cliente:
-   def __init__(self,nome_completo,data_nascimento,email,data_criacao) -> None:
-      self.nome = nome_completo
+   def __init__(self,nome_completo,data_nascimento,email,data_criacao):
+      self.nome_completo = nome_completo
       self.data_nascimento = data_nascimento
       self.email = email
       self.data_criacao = data_criacao
@@ -22,9 +22,9 @@ class Cliente:
    def cadastrar_clientes(self):
       with open('clientes.csv','a') as clientes_csv:
          writer = csv.writer(clientes_csv)
-         writer.writerow([self.nome, self.data_nascimento,self.email, self.data_criacao])   
+         writer.writerow([self.nome_completo, self.data_nascimento,self.email, self.data_criacao])   
    
-      print( f"Cliente," +{self.nome} +"cadastrado com sucesso")
+      print(f"Cliente {self.nome_completo} cadastrado com sucesso")
 
    def eh_ano_bissexto(self):
         ano_atual = datetime.now().year
