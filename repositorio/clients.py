@@ -1,107 +1,70 @@
 from calendar import isleap
 from datetime import date
-import datetime
+from datetime import datetime
 import shutil
 import tempfile
+import dotenv
 from tabulate import tabulate
 import csv
 import random
 from faker import Faker
 from dateutil.relativedelta import relativedelta
-
-
+from entidades.cliente import Cliente
+import os
 fake = Faker()
 
-class Cliente:
-   def __init__(self,nome_completo,data_nascimento,email,data_criacao):
-      self.nome_completo = nome_completo
-      self.data_nascimento = data_nascimento
-      self.email = email
-      self.data_criacao = data_criacao
+dotenv.load_dotenv()
+CAMINHO_ARQUIVO_DADOS = os.getenv("clientes.csv")
 
-   def cadastrar_clientes(self):
-      with open('clientes.csv','a') as clientes_csv:
-         writer = csv.writer(clientes_csv)
-         writer.writerow([self.nome_completo, self.data_nascimento,self.email, self.data_criacao])   
+
+def cadastrar_clientes(nome_completo, data_nascimento, email, data_criacao):
+      
+      with open('CAMINHO_ARQUIVO_DADOS','a') as file_csv:
+         writer = csv.writer(file_csv)
+         writer.writerow([nome_completo, data_nascimento, email, data_criacao])   
+        
    
-      print(f"Cliente {self.nome_completo} cadastrado com sucesso")
+      print(f"Cliente {nome_completo} cadastrado com sucesso")
 
-   def eh_ano_bissexto(self):
-        ano_atual = datetime.now().year
-        return isleap(ano_atual) == False
-    
-   def faz_aniversario_ano_bissexto(self):
-        dia, mes = self.data_nascimento
-        return dia == "29" and mes == "02"
-
-   def get_dia_mes_aniversario(self) -> dict["dia": str, "mes": str, "ano": str]:
-        dia, mes = self.data_nascimento.split("/")[:2]
-
-        if self.eh_ano_bissexto() and self.faz_aniversario_ano_bissexto():
-            dia = "28"
-
-        data = {
-            "dia": int(dia),
-            "mes": int(mes)
-        }
-        return data   
-
-  
-# Gerar dados aleatórios para 50 clientes
-#dados_clientes = []
-#or _ in range(50):
-   # nome = fake.name()
-   # data_nascimento = fake.date_of_birth(minimum_age=18, maximum_age=90)
-   # email = fake.email()
-    
-    # Calcular a data de cricao -2 anos a partir da data atual  
-    # Para fazer: preciso trocar a data para uma logica aleatoria
-    #data_atual = date.today() 
-    #data_criacao = data_atual + relativedelta (days=random.randint(0, 365*2)) - relativedelta(years=2)
-
-
-    
-    #dados_clientes.append([nome, data_nascimento, email, data_criacao])
-
-# Escrever os dados no arquivo CSV
-#with open('clientes.csv', 'w', encoding="utf8") as arquivo_csv:
-   # writer = csv.writer(arquivo_csv)
-    #writer.writerow(['nome_completo', 'data_nascimento', 'email', 'data_criacao'])
-    #writer.writerows(dados_clientes)
-
-   # print("Arquivo CSV gerado com sucesso!")
-
-
-
+      
 def get_todos_clientes():
- with open('clientes.csv', 'r', encoding='utf8') as arquivo_csv:
-     reader = csv.DictReader(arquivo_csv)
-     for row in reader:
-        nome = row["nome_completo"]
-        email = row["email"]
-        print(f"Nome: {nome}, Email: {email}")
- 
-get_todos_clientes()
-     
+    
+
+    with open('clientes.csv', 'r', encoding='utf8') as arquivo_csv:
+        reader = csv.reader(arquivo_csv)
+        for row in reader:
+         if len(row) >= 4:
+            nome_completo = row[0]
+            data_nascimento = row[1]
+            email = row[2]
+            data_criacao = row[3]
+            print(f"{nome_completo}, {data_nascimento}, {email},{data_criacao}")
+        
+   
 
 def get_mostrar_aniver():
-    hoje = date.today()
+    hoje = datetime.today().date()
     aniversariantes = []
+    
 
     with open('clientes.csv', 'r') as csv_file:
         reader = csv.DictReader(csv_file)
-        for row in reader:
-            data_nascimento = date.fromisoformat(row['data_nascimento'])
-            nome = row["nome_completo"]
-            if data_nascimento.day == hoje.day and data_nascimento.month == hoje.month:
-                aniversariantes.append(row['nome_completo'])
-            
-            else:
-               print("Não existe na data de hoje nenhum cliente fazendo aniver")
+        for cliente in reader:
+            data_nascimento = datetime.strptime(cliente['data_nascimento'],'%Y-%m-%d').date()
+            nome_completo = cliente["nome_completo"]
+            if data_nascimento.month == hoje.month and data_nascimento.day == hoje.day:
+               aniversariantes.append(nome_completo)
+               
+    if aniversariantes:  
+      print("Aniversariantes de hoje: ")            
+      for nome_completo in aniversariantes:
+       print(nome_completo)
+    else:
+      print("Não existe na data de hoje nenhum cliente fazendo aniver")
 
-            return aniversariantes
+            #return aniversariantes
 
-get_mostrar_aniver()
+#get_mostrar_aniver()
 
 
 #To do: criar uma vreficacao caso cliente nascer em ano bissexto 
