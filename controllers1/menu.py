@@ -1,5 +1,6 @@
 from repositorio import clients
 from entidades import cliente
+from controllers1 import email_service
  
 
 def iniciar_menu_principal():
@@ -25,7 +26,7 @@ def iniciar_menu_principal():
                 nome_completo = input( "Olá confirme os dados do cliente, digite o nome completo: ")
                 clients.editar_clientes(nome_completo)
             case '4':
-                print("ENVIAR CUPONS VIA EMAIL")
+                email_service.enviar_emails()
             case '5':
                 break
             case other:
@@ -41,6 +42,7 @@ def iniciar_submenu_consulta_clientes():
                  
         elif opcao_escolhida == '2': 
                 clients.get_mostrar_aniver()
+            
                 
         elif opcao_escolhida == '3': 
                 mmes_especifico =input("Digite o mes conforme o ex: 02")

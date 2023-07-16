@@ -62,7 +62,7 @@ def get_mostrar_aniver():
     else:
       print("Não existe na data de hoje nenhum cliente fazendo aniver")
 
-            #return aniversariantes
+      return aniversariantes
 
 #get_mostrar_aniver()
 
@@ -153,7 +153,6 @@ def editar_clientes(nome_completo):
 
 
 
-#TO do excluir_clientes
          
 
    
