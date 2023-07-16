@@ -69,22 +69,30 @@ def get_mostrar_aniver():
 
 #To do: criar uma vreficacao caso cliente nascer em ano bissexto 
 def mostrar_por_mes(mes_especifico):
+     
+   mes, ano = mes_especifico.split("-")
    
+   
+   data_especifico = datetime.strptime(mes_especifico,'%Y-%m').date()
+   mes = data_especifico.month
+   ano = data_especifico.year
    aniver_do_mes = []
   
    with open('clientes.csv' , 'r') as csv_file:
       reader = csv.DictReader(csv_file)
-      for row in reader:
-         data_nascimento = date.fromisoformat(row['data_nascimento'])
-
-         if data_nascimento == mes_especifico:
-            aniver_do_mes.append(row['name'])
+      for cliente in reader:
+         data_nascimento = datetime.strptime(cliente['data_nascimento'],'%Y-%m-%d').date()
+         nome_completo = cliente["nome_completo"]
+         if  data_nascimento.month == mes:
+            aniver_do_mes.append(nome_completo)
       
          if aniver_do_mes:
-            for aniver in aniver_do_mes:
-               print(" Esse mês é aniver do cliente): " , aniver)
-      else:
-         print("Nao há aniversariantes esse mes")
+               print(f" Esse mês é aniver do cliente):{mes}/{ano}:")
+               for nome_completo in aniver_do_mes:
+                  print(nome_completo)
+         else:
+           print(f"Nao há aniversariantes esse mes :{mes}/{ano}")
+   
 
 
 def editar_clientes(nome_completo):

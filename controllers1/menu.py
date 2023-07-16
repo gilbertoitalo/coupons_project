@@ -43,7 +43,7 @@ def iniciar_submenu_consulta_clientes():
                 clients.get_mostrar_aniver()
                 
         elif opcao_escolhida == '3': 
-                mmes_especifico =input("Digite o mes e ano que gostaria de pesquisar")
+                mmes_especifico =input("Digite o mes conforme o ex: 02")
                 clients.mostrar_por_mes(mmes_especifico)
                 break
         elif opcao_escolhida == '4': 
