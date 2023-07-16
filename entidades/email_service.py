@@ -30,10 +30,8 @@ PORTA = os.getenv('PORTA')
 # TO DO criar logica para chamar os aniver e mandar    
 
 
-
-
-
 def enviar_emails():
+   
    clientes= []
 
    # with open('clientes.csv', 'r') as csv_file:
