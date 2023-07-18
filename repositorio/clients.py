@@ -19,7 +19,7 @@ CAMINHO_ARQUIVO_DADOS = os.getenv("clientes.csv")
 
 def cadastrar_clientes(nome_completo, data_nascimento, email, data_criacao):
       
-      with open('CAMINHO_ARQUIVO_DADOS','a') as file_csv:
+      with open('clientes.csv','a') as file_csv:
          writer = csv.writer(file_csv)
          writer.writerow([nome_completo, data_nascimento, email, data_criacao])   
         

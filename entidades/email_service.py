@@ -29,17 +29,11 @@ PORTA = os.getenv('PORTA')
    
 # TO DO criar logica para chamar os aniver e mandar    
 
-
 def enviar_emails():
+
    
    clientes= []
 
-   # with open('clientes.csv', 'r') as csv_file:
-   #      reader = csv.DictReader(csv_file)
-   #      for row in reader:
-   #          clientes.append(row)
-
-   hoje = datetime.date.today()    
    clientes_aniver = get_mostrar_aniver()
 
    if clientes_aniver is not None:
@@ -54,7 +48,7 @@ def enviar_emails():
    opcao = input("Digite 'enviar' para enviar os email or 'ver' polharara  os destinatarios: ")
 
    if opcao.lower() == 'enviar':
-      for clientes in get_mostrar_aniver:
+      for clientes in clientes_aniver:
         enviar_emails(clientes)
         print("Emails de aniver enviado com sucesso")
 
@@ -64,7 +58,9 @@ def enviar_emails():
    else:
       print("Acao invaldia")
       
-   
+
+
+def enviando_email(clientes):
    receptor_email = clientes['email']
    receptor_email_nome = clientes["nome_completo"].split()[0]                         
    titulo_email = f"Feliz aniversário!, {receptor_email_nome}!"
@@ -91,7 +87,8 @@ def enviar_emails():
 
       print(f"Email foi enviado para {receptor_email}")
 
-enviar_emails()
+
+
  
 #    for destinatario  in destinatarios:
 #       primeiro_nome = destinario.split("")[0]
