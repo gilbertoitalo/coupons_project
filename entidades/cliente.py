@@ -1,5 +1,8 @@
 from calendar import isleap
 from datetime import datetime
+from os import getenv
+from pipes import Template
+
 
 
 class Cliente():
@@ -29,6 +32,23 @@ class Cliente():
             "mes": int(mes)
         }
         return data 
+   
+   def objetc_email(self):
+        primeiro_nome = self.nome_completo.split(" ")[0]
+        
+        with open(("template_email.txt"), "r", encoding="utf8") as arquivo_template:
+            template_email = Template(arquivo_template.read())
+
+        conteudo = template_email.substitute(
+            NOME=primeiro_nome, 
+            NOME_EMPRESA=("SERASA"),
+            CUPOM="TESTE10"
+        )
+        return {
+            "email": self.email,
+            "mensagem": conteudo,
+            "titulo_email": f"Feliz aniversário, {primeiro_nome}"
+        }
    
    @staticmethod
    def mostrar_clientes(clientes: list) -> None:

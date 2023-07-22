@@ -1,7 +1,6 @@
-from entidades.email_service import enviar_emails
 from entidades.cliente import Cliente 
 import repositorio.clients as funcoes 
- 
+import entidades.email_service as emails 
 
 def iniciar_menu_principal():
     while True:
@@ -21,9 +20,7 @@ def iniciar_menu_principal():
             nome_completo = input("Olá, confirme os dados do cliente, digite o nome completo: ")
             funcoes.editar_clientes(nome_completo)
         elif opcao_escolhida == '4':
-            
-            anivers = funcoes.get_mostrar_aniver()
-            enviar_emails()
+            emails.enviar_emails()
             break  
         elif opcao_escolhida == '5':
             break
@@ -37,7 +34,8 @@ def iniciar_submenu_consulta_clientes():
         if opcao2 == '1':
             funcoes.get_todos_clientes()
         elif opcao2 == '2':
-            funcoes.get_mostrar_aniver()
+            cliente = None
+            funcoes.get_mostrar_aniver(cliente)
         elif opcao2 == '3':
             mmes_especifico = input("Digite o mês (exemplo: 02): ")
             funcoes.mostrar_por_mes(mmes_especifico)

@@ -42,7 +42,7 @@ def get_todos_clientes():
         
    
 
-def get_mostrar_aniver():
+def get_mostrar_aniver(cliente):
     hoje = datetime.today().date()
     aniversariantes = []
     

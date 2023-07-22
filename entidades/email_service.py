@@ -1,19 +1,17 @@
-import csv
-import smtplib
+              
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
-import os
+import smtplib
 from dotenv import load_dotenv
-import datetime
-from repositorio.clients import get_mostrar_aniver
+import os
 
-#TO DO criar uma def de log_err para gerar o arq em com qualquer erro
+from repositorio.clients import *
 
 load_dotenv()
 EMAIL_LOGIN = os.getenv("EMAIL_LOGIN")
-SENHA_LOGIN = os.getenv("SENHA_LOGIN")
+SENHA_LOGIN = 'mfbhohutakcdsjik'
 HOST = os.getenv('HOST') 
-PORTA = os.getenv('PORTA') 
+PORTA = 587
 
 # def gerar_arquivo_log_erro(log_erros):
 #     data_hora_atual = datetime.datetime.today().strftime('%d_%m_%y_%H_%M_%S')
@@ -30,27 +28,38 @@ PORTA = os.getenv('PORTA')
 # TO DO criar logica para chamar os aniver e mandar    
 
 def enviar_emails():
+   clientes = []
+   with open('clientes.csv', 'r') as csv_file:
+        reader = csv.DictReader(csv_file)
+        for row in reader:
+            clientes.append(row)   
+   #anivers = get_mostrar_aniver()
+   today = datetime.today
+   
+
+   anivers = [cliente for cliente in clientes if get_mostrar_aniver(cliente['data_nascimento']) == today]
+
 
    
-   clientes= []
-
-   clientes_aniver = get_mostrar_aniver()
-
-   if clientes_aniver is not None:
-    print(f"Numeros de clientes fazendo anive hj sao: {len(clientes_aniver)}")
-    for cliente in clientes_aniver:
+   if anivers is not None:
+    print(f"Numeros de clientes fazendo anive hj sao: {len(anivers)}")
+    for aniver in anivers:
       print(f"Name: {clientes['nome_completo']}, Email: {clientes['email']}")
       
-   else:
-      print("Nao foi encontrado nenhum cliente fazendo aniver hoje")
+   print(print(f"Numeros de anivers para ser enviado hoje é: {len(anivers)}"))
    
    
    opcao = input("Digite 'enviar' para enviar os email or 'ver' polharara  os destinatarios: ")
 
    if opcao.lower() == 'enviar':
-      for clientes in clientes_aniver:
-        enviar_emails(clientes)
-        print("Emails de aniver enviado com sucesso")
+      for anivers in clientes:
+         enviando_email(anivers)
+
+      print("Email enviado com sucesso")
+      
+      # for aniver in anivers:
+      #   enviar_emails(clientes)
+      #   print("Emails de aniver enviado com sucesso")
 
    elif opcao.lower() == 'ver':
       for clientes in get_mostrar_aniver:
@@ -60,32 +69,47 @@ def enviar_emails():
       
 
 
-def enviando_email(clientes):
-   receptor_email = clientes['email']
-   receptor_email_nome = clientes["nome_completo"].split()[0]                         
-   titulo_email = f"Feliz aniversário!, {receptor_email_nome}!"
-   escopo = f"Olá, <receptor_email_nome>. Nós da Serasa Experan te desejamos um feliz aniversário. Aqui está um cupom de desconto para utilizar nas compras de nossos produtos e serviços: {cupom_desconto}"
+def enviando_email(anivers):
+   
+   emails_enviados = 0 
+   
+   servidor = smtplib.SMTP(HOST, PORTA)
 
-   #inserir infos do servidor SMTP
-   # servidor = smtplib.SMTP('smtp.gmail.com', 587)
-   # servidor.starttls()
-   # servidor.login('italo.mpinheiro@gmail.com','ifcpshvmwqdgwgzn')
+   servidor.starttls()
+
+   servidor.login(EMAIL_LOGIN, SENHA_LOGIN)
+
 
    msg = MIMEMultipart()
-   msg ['from'] = 'italo.mpinheiro@gmail.com'
-   msg ['to'] = 'gilberto_italo@hotmail.com'
+   msg ['from'] = EMAIL_LOGIN
+   msg ['to'] = anivers('email')
    msg ['Subject'] = titulo_email
-
+   
+   
+   receptor_email_nome = anivers["nome_completo"].split()[0]                         
+   titulo_email = f"Feliz aniversário!, {receptor_email_nome}!"
    conteudo_email = MIMEText(escopo ,'plain')
    msg.attach(conteudo_email)
+   escopo = f"Olá, <receptor_email_nome>. Nós da Serasa Experan te desejamos um feliz aniversário. Aqui está um cupom de desconto para utilizar nas compras de nossos produtos e serviços: "
+   try:
+      servidor.send_message(msg)
+      emails_enviados += 1
+   except:
+      pass
+   finally:
+      servidor.quit()
+      return emails_enviados
+   
 
    
-   with smtplib.SMTP(HOST, PORTA) as servidor:
-      servidor.starttls()
-      servidor.login(EMAIL_LOGIN,SENHA_LOGIN)
-      servidor.send_message(msg)
 
-      print(f"Email foi enviado para {receptor_email}")
+   
+   # with smtplib.SMTP(HOST, PORTA) as servidor:
+   #    servidor.starttls()
+   #    servidor.login(EMAIL_LOGIN,SENHA_LOGIN)
+   #    servidor.send_message(msg)
+
+      #print(f"Email foi enviado para {receptor_email}")
 
 
 
