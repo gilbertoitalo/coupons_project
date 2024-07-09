@@ -5,7 +5,7 @@ import smtplib
 from dotenv import load_dotenv
 import os
 
-from repositorio.clients import *
+from models.clients import *
 
 load_dotenv()
 EMAIL_LOGIN = os.getenv("EMAIL_LOGIN")
@@ -27,33 +27,33 @@ PORTA = 587
    
 # TO DO criar logica para chamar os aniver e mandar    
 
-def enviar_emails():
-   clientes = []
+def send_emails():
+   clients = []
    with open('clientes.csv', 'r') as csv_file:
         reader = csv.DictReader(csv_file)
         for row in reader:
-            clientes.append(row)   
+            clients.append(row)   
    #anivers = get_mostrar_aniver()
    today = datetime.today
    
 
-   anivers = [cliente for cliente in clientes if get_mostrar_aniver(cliente['data_nascimento']) == today]
+   anivers = [cliente for cliente in clients] if get_all_anivers(clients['data_nascimento']) == today else print("Nennhum aniver hoje")
 
 
    
    if anivers is not None:
     print(f"Numeros de clientes fazendo anive hj sao: {len(anivers)}")
     for aniver in anivers:
-      print(f"Name: {clientes['nome_completo']}, Email: {clientes['email']}")
+      print(f"Name: {clients['nome_completo']}, Email: {clients['email']}")
       
    print(print(f"Numeros de anivers para ser enviado hoje é: {len(anivers)}"))
    
    
-   opcao = input("Digite 'enviar' para enviar os email or 'ver' polharara  os destinatarios: ")
+   option = input("Digite 'enviar' para enviar os email or 'ver' polharara  os destinatarios: ")
 
-   if opcao.lower() == 'enviar':
-      for anivers in clientes:
-         enviando_email(anivers)
+   if option.lower() == 'enviar':
+      for anivers in clients:
+         sending_email(anivers)
 
       print("Email enviado com sucesso")
       
@@ -61,23 +61,23 @@ def enviar_emails():
       #   enviar_emails(clientes)
       #   print("Emails de aniver enviado com sucesso")
 
-   elif opcao.lower() == 'ver':
-      for clientes in get_mostrar_aniver:
-         print(f"Name: {clientes['nome_completo']}, Email: {clientes['email']}")
+   elif option.lower() == 'ver':
+      for clients in get_all_anivers:
+         print(f"Name: {clients['nome_completo']}, Email: {clients['email']}")
    else:
       print("Acao invaldia")
       
 
 
-def enviando_email(anivers):
+def sending_email(anivers):
    
-   emails_enviados = 0 
+   sent_emails = 0 
    
-   servidor = smtplib.SMTP(HOST, PORTA)
+   server = smtplib.SMTP(HOST, PORTA)
 
-   servidor.starttls()
+   server.starttls()
 
-   servidor.login(EMAIL_LOGIN, SENHA_LOGIN)
+   server.login(EMAIL_LOGIN, SENHA_LOGIN)
 
 
    msg = MIMEMultipart()
@@ -92,13 +92,13 @@ def enviando_email(anivers):
    msg.attach(conteudo_email)
    escopo = f"Olá, <receptor_email_nome>. Nós da Serasa Experan te desejamos um feliz aniversário. Aqui está um cupom de desconto para utilizar nas compras de nossos produtos e serviços: "
    try:
-      servidor.send_message(msg)
-      emails_enviados += 1
+      server.send_message(msg)
+      sent_emails += 1
    except:
       pass
    finally:
-      servidor.quit()
-      return emails_enviados
+      server.quit()
+      return sent_emails
    
 
    
