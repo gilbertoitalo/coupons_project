@@ -5,7 +5,7 @@ import smtplib
 from dotenv import load_dotenv
 import os
 
-from models.clients import *
+from modelss.customers import *
 
 load_dotenv()
 EMAIL_LOGIN = os.getenv("EMAIL_LOGIN")

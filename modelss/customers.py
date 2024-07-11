@@ -9,7 +9,7 @@ import csv
 import random
 from faker import Faker
 from dateutil.relativedelta import relativedelta
-from models.cliente import Cliente
+from modelss.customer import Customer
 import os
 fake = Faker()
 

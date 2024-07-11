@@ -1,6 +1,6 @@
 from tkinter import ttk
-from models.cliente import Cliente 
-import models.clients as functions 
+from modelss.customer import functions
+from modelss.customers import *
 import services.email_service as emails 
 from tkinter import *
 
@@ -48,20 +48,7 @@ def customer_query_submenu():
         else:
             print("Invalid option")
 
-def setup_gui():
-    root = Tk()
-    root.title("Coupons System")
-    root.config(padx=10, pady=100)
-    frm = ttk.Frame(root, padding=10)
-    frm.grid()
-    ttk.Label(frm, text="Hello World!").grid(column=0, row=0)
-    ttk.Button(frm, text="Quit", command=root.destroy).grid(column=2, row=0)
-    website_entry = Entry(width=35)
-    website_entry.grid(row=2, column=1, columnspan=2)
-    website_entry.focus()
-    add_button = Button(text="Generate QR Code", width=36, command=main_menu)
-    add_button.grid(row=4, column=1, columnspan=2)
-    root.mainloop()
+
 
 if __name__ == '__main__':
     setup_gui()

@@ -1,4 +1,4 @@
-from views import menu 
+import views.menu as menu 
 from datetime import datetime
 
 
